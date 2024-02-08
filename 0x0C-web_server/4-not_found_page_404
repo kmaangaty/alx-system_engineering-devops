@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# not found
+c1='\e[0m'
+c2='\e[103m'
+c3='\e[1;32m'
+c4='\e[31m'
+echo -e "${c1}Updating and installing ${c2}Nginx${c1}.${c4}\n"
+sudo apt-get update -y -qq && \
+	 sudo apt-get install nginx -y
+echo -e "\n${c1}Setting up some minor stuff.${c4}\n"
+sudo service nginx start
+sudo ufw allow 'Nginx HTTP'
+sudo chown -R "$USER":"$USER" /var/www/html
+sudo chmod -R 755 /var/www
+cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.bckp
+echo -e "Hello World!" > /var/www/html/index.nginx-debian.html
+sudo sed -i '24i\	rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;' /etc/nginx/sites-available/default
+echo "Ceci n'est pas une page" >> /var/www/html/error_404.html
+sudo sed -i '25i\	error_page 404 /error_404.html;' /etc/nginx/sites-available/default
+sudo service nginx restart
+echo -e "\n${c3}Completed.${c4} \n"
