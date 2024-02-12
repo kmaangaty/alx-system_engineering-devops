@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+# install load balancer
+
+
+c1='\e[0m'
+c2='\e[1;32m'
+c3='\e[31m'
+function install() {
+	command -v "$1" &> /dev/null
+	if [ $? -ne 0 ]; then
+		sudo apt-get update -y -qq && \
+			sudo apt-get install -y "$1" -qq
+		echo -e "\n"
+	else
+		echo -e "	${c2}${1} is already installed.${c3}\n"
+	fi
+}
+install haproxy
+sudo cp /etc/haproxy/haproxy.cfg haproxy_default.backup
+server_config=\
+"
+defaults
+  mode http
+  timeout client 15s
+  timeout connect 10s
+  timeout server 15s
+  timeout http-request 10s
+frontend qubitket-tech-frontend
+    bind *:80
+    default_backend qubitket-tech-backend
+backend qubitket-tech-backend
+    balance roundrobin
+    server 238549-web-01 100.27.0.247:80 check
+    server 238549-web-02 100.26.162.119:80 check
+"
+echo "$server_config" | sudo dd status=none of=/etc/haproxy/haproxy.cfg
+echo "ENABLED=1" | sudo dd status=none of=/etc/default/haproxy
+if [ "$(pgrep -c haproxy)" -le 0 ]; then
+	sudo service haproxy start
+else
+	sudo service haproxy restart
+fi

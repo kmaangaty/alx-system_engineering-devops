@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+# 0-custom_http_response_header
+
+c1='\e[0m'
+c2='\e[103m'
+c3='\e[1;32m'
+c4='\e[31m'
+function install() {
+	command -v "$1" &> /dev/null
+	if [ $? -ne 0 ]; then
+		sudo apt-get update -y -qq && \
+			sudo apt-get install -y "$1" -qq
+		echo -e "\n"
+	else
+		echo -e "no need to install ${c3}${1} ${c4}\n"
+	fi
+}
+install nginx
+sudo ufw allow 'Nginx HTTP'
+if [ -d "/var/www" ]; then
+	sudo chown -R "$USER":"$USER" /var/www
+	sudo chmod -R 755 /var/www
+else
+	sudo mkdir -p /var/www
+	sudo chown -R "$USER":"$USER" /var/www
+	sudo chmod -R 755 /var/www
+fi
+for dir in /var/www/{html,error}; do
+	if ! [ -d "$dir" ]; then
+		mkdir -p "$dir"
+	fi
+done
+echo "Hello World!" > /var/www/html/index.html
+echo "Ceci n'est pas une page" > /var/www/html/error_404.html
+sudo cp /etc/nginx/sites-enabled/default nginx-sites-enabled_default.backup
+server_config=\
+"server {
+		listen 80 default_server;
+		listen [::]:80 default_server;
+		root /var/www/html;
+		index index.html index.htm index.nginx-debian.html
+		server_name_;
+		add_header X-Served-By \$hostname;
+		location / {
+			try_files \$uri \$uri/ =404;
+		}
+		if (\$request_filename ~ redirect_me){
+			rewrite ^ http://qubitket.tech/ permanent;
+		}
+		error_page 404 /error_404.html;
+		location = /error_404.html {
+			internal;
+		}
+}"
+echo "$server_config" | sudo dd status=none of=/etc/nginx/sites-enabled/default
+if [ "$(pgrep -c nginx)" -le 0 ]; then
+	sudo service nginx start
+else
+	sudo service nginx restart
+fi
