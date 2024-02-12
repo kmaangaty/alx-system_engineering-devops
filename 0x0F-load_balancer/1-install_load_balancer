@@ -1,16 +1,11 @@
 #!/usr/bin/env bash
-
-# Exit on any command failure
+# install haproxy
 set -e
-
-# Check if HAProxy is already installed
 if ! command -v haproxy &> /dev/null; then
     sudo apt-get install -y haproxy
 else
     echo "HAProxy is already installed."
 fi
-
-# Configure HAProxy
 cat <<EOT | sudo tee /etc/haproxy/haproxy.cfg
 frontend qubitket.tech
     timeout client  30000
@@ -24,9 +19,5 @@ backend qubitket.tech_backend
     server 238549-web-01 100.27.0.247:80 check
     server 238549-web-02 100.26.162.119:80 check
 EOT
-
-# Check HAProxy configuration and restart the service
 sudo haproxy -c -f /etc/haproxy/haproxy.cfg && sudo service haproxy restart
-
-# Disable the exit-on-error behavior if you want to continue the script even after an error
 set +e
