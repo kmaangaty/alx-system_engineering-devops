@@ -1,23 +1,23 @@
 global
-        log /dev/log    local0
+    log /dev/log    local0
 	stats socket /run/haproxy/admin.sock mode 660 level admin
 
 defaults
-        log     global
-        mode    http
-        option  httplog
+    log     global
+    mode    http
+    option  httplog
 	timeout connect  10s
 	timeout client  30s
 	timeout server  30s
 
-frontend qubitket-tech-frontend
+frontend qubitket.tech
 	bind *:80
-	bind *:443 ssl crt /etc/letsencrypt/archive/www.qubitket.tech/fullchain1.pem
-	http-request redirect scheme https unless { ssl_fc }
+    bind *:443 ssl crt /etc/letsencrypt/archive/www.qubitket.tech/qubitket.tech.pem
+	http-request redirect scheme https code 301 unless { ssl_fc }
 	http-request set-header X-Forwarded-Proto https
-	default_backend qubitket-tech-backend
+	default_backend qubitket.tech_backend
 
-backend qubitket-tech-backend
+backend qubitket.tech_backend
 	balance roundrobin
-	server 453-web-01 100.26.173.228:80 check
-	server 453-web-02 54.208.31.213:80 check
+    server 238549-web-01 100.27.0.247:80 check
+    server 238549-web-02 100.26.162.119:80 check
