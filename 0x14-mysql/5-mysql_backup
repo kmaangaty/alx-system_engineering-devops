@@ -1,22 +1,8 @@
-#!/bin/bash
-
-# Check if the correct number of arguments is provided
-if [ "$#" -ne 1 ]; then
-    echo "Usage: $0 <mysql_password>"
-    exit 1
-fi
-
-# MySQL dump command
-mysqldump -uroot -p"$1" --all-databases > backup.sql
-
-# Get the current date in the required format
-date_format=$(date +"%d-%m-%Y")
-
-# Compress the MySQL dump into a tar.gz archive
-tar -czvf "$date_format.tar.gz" backup.sql
-
-# Clean up the intermediate MySQL dump file
-rm backup.sql
-
-# Display the generated files
-ls -l "$date_format.tar.gz"
+#!/usr/bin/env bash
+# backup database
+day=$(date +"%d")
+month=$(date +"%m")
+year=$(date +"%Y")
+file_name="$day-$month-$year.tar.gz"
+mysqldump --all-databases -u root --password="$1" > backup.sql
+tar -czvf "$file_name" backup.sql
