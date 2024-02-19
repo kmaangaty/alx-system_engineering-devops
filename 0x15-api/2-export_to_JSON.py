@@ -1,55 +1,38 @@
 #!/usr/bin/python3
 """
-This script retrieves information about an employee's TODO list progress
-and exports the data to a JSON file.
-
-Usage:
-    python3 script_name.py <employee_id>
-
-Arguments:
-    <employee_id>: Integer representing the employee ID.
-
-The script fetches data from the JSONPlaceholder API to gather information
-about the specified employee's TODO list progress. It counts the completed
-tasks, displays progress information, and exports the data to a JSON file.
-
-Requirements:
-- Uses the requests module.
+Return information for a given employee about his/her TODO list progress
 """
 
 if __name__ == "__main__":
+    # Import necessary libraries
     import json
     import requests
     import sys
 
     # Initialize variables for completed tasks (dt), all tasks (at), and a list to store data for JSON
-    dt = 0
     at = 0
-    json_data = {}
+    dt = 0
+    cl = []
 
     # URL to fetch user information based on provided employee ID
-    user_url = f'https://jsonplaceholder.typicode.com/users/{sys.argv[1]}'
+    us_rls = f'https://jsonplaceholder.typicode.com/users/{sys.argv[1]}'
 
     # URL to fetch TODO list data for all users
-    todos_url = 'https://jsonplaceholder.typicode.com/todos'
+    tds = 'https://jsonplaceholder.typicode.com/todos'
 
     # Send requests to the URLs to get data
-    response_user = requests.get(user_url)
-    response_todos = requests.get(todos_url)
+    rt = requests.get(us_rls)
+    ro = requests.get(tds)
 
     # Parse the JSON responses
-    user_data = response_user.json()
-    todos_data = response_todos.json()
-
-    # Get the name, username, and employee ID
-    employee_name = user_data.get('name')
-    username = user_data.get('username')
-    employee_id = sys.argv[1]
+    n = rt.json().get('name')
+    un = rt.json().get('username')
+    tdl = ro.json()
 
     # Iterate through the TODO list data
-    for todo in todos_data:
+    for todo in tdl:
         # Check if the task belongs to the specified user
-        if todo.get('userId') == int(employee_id):
+        if todo.get('userId') == int(sys.argv[1]):
             # Count all tasks for the specified user
             at += 1
 
@@ -57,13 +40,13 @@ if __name__ == "__main__":
             if todo.get('completed'):
                 dt += 1
 
-            # Store task information in the JSON data dictionary
-            json_data[employee_id] = [{
+            # Append task information to the list
+            cl.append({
                 "task": todo.get("title"),
                 "completed": todo.get("completed"),
-                "username": username
-            }]
+                "username": un
+            })
 
     # Write JSON data to a file
-    with open(f"{employee_id}.json", 'w+') as file:
-        json.dump(json_data, file)
+    with open(sys.argv[1] + '.json', 'w+') as file:
+        json.dump({sys.argv[1]: cl}, file)
