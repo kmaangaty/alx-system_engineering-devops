@@ -2,18 +2,20 @@
 """
 This script retrieves information about an employee's TODO list progress
 using a REST API. It accepts an employee ID as a parameter and displays
-the progress in a specific format. Additionally, it exports the data to a CSV file.
+the progress in a specific format.
+ Additionally, it exports the data to a CSV file.
 
 Requirements:
 - Uses the requests module
 - Accepts an integer as a parameter (employee ID)
 - Displays information in the specified format
-- Exports data to CSV file in the format: "USER_ID","USERNAME","TASK_COMPLETED_STATUS","TASK_TITLE"
+- Exports data to CSV file in the format:
+ "USER_ID","USERNAME","TASK_COMPLETED_STATUS","TASK_TITLE"
 """
 
+import csv
 import requests
 import sys
-import csv
 
 
 def get_employee_data(employee_id):
@@ -41,7 +43,8 @@ def get_employee_data(employee_id):
     completed_tasks = sum(task['completed'] for task in todos_data)
 
     # Display employee TODO list progress
-    print(f"Employee {employee_name} is done with tasks({completed_tasks}/{total_tasks}):")
+    print(f"Employee {employee_name}"
+          f" is done with tasks({completed_tasks}/{total_tasks}):")
 
     # Display titles of completed tasks
     for task in todos_data:
@@ -62,7 +65,8 @@ def export_to_csv(employee_id, employee_name, task):
 
     with open(csv_file_name, mode='a', newline='') as file:
         writer = csv.writer(file, quoting=csv.QUOTE_ALL)
-        writer.writerow([employee_id, employee_name, str(task['completed']), task['title']])
+        writer.writerow([employee_id, employee_name,
+                         str(task['completed']), task['title']])
 
 
 if __name__ == "__main__":
