@@ -42,7 +42,8 @@ def get_employee_data(employee_id):
     print(f"Employee {employee_name}"
           f" is done with tasks({completed_tasks}/{total_tasks}):")
 
-    # Display titles of completed tasks with 1 tabulation and 1 space before the TASK_TITLE
+    # Display titles of completed tasks
+    # with 1 tabulation and 1 space before the TASK_TITLE
     for task in todos_data:
         if task['completed']:
             print(f"\t {task['title']}")
