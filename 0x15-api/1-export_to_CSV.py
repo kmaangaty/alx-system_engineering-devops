@@ -63,6 +63,17 @@ def export_to_csv(employee_id, employee_name, task):
     """
     csv_file_name = f"{employee_id}.csv"
 
+    # Check if the file already exists
+    try:
+        with open(csv_file_name, mode='x', newline='') as file:
+            writer = csv.writer(file, quoting=csv.QUOTE_ALL)
+            # Write header if the file is newly created
+            writer.writerow(["USER_ID", "USERNAME",
+                             "TASK_COMPLETED_STATUS", "TASK_TITLE"])
+    except FileExistsError:
+        pass
+
+    # Append data to the existing CSV file
     with open(csv_file_name, mode='a', newline='') as file:
         writer = csv.writer(file, quoting=csv.QUOTE_ALL)
         writer.writerow([employee_id, employee_name,
