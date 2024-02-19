@@ -10,7 +10,8 @@ if __name__ == "__main__":
     import requests
     import sys
 
-    # Initialize variables for completed tasks (dt), all tasks (at), and a list to store data for JSON
+    # Initialize variables for completed tasks
+    # (dt), all tasks (at), and a list to store data for JSON
     at = 0
     dt = 0
     cl = []
