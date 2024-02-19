@@ -21,11 +21,10 @@ import sys
 if __name__ == "__main__":
     uid = sys.argv[1]
     link = "https://jsonplaceholder.typicode.com/"
-    tds = requests.get(link + "todos", params={"userId": uid}).json()
-    us = requests.get(link + "users/{}".format(uid)).json()
-    un = us.get("username")
-
-    with open("{}.csv".format(uid), "w", newline="") as f:
+    with open(f"{uid}.csv", "w", newline="") as f:
+        tds = requests.get(link + "todos", params={"userId": uid}).json()
+        us = requests.get(link + "users/{}".format(uid)).json()
+        un = us.get("username")
         writer = csv.writer(f, quoting=csv.QUOTE_ALL)
         [writer.writerow(
             [uid, un, t.get("completed"), t.get("title")]
