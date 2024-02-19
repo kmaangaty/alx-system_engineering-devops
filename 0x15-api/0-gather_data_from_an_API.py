@@ -13,6 +13,7 @@ Requirements:
 import requests
 import sys
 
+
 def get_employee_data(employee_id):
     """
     Fetches employee data and TODO list from a REST API
@@ -38,12 +39,14 @@ def get_employee_data(employee_id):
     completed_tasks = sum(task['completed'] for task in todos_data)
 
     # Display employee TODO list progress
-    print(f"Employee {employee_name} is done with tasks({completed_tasks}/{total_tasks}):")
+    print(f"Employee {employee_name} is done with tasks("
+          f"{completed_tasks}/{total_tasks}):")
 
     # Display titles of completed tasks
     for task in todos_data:
         if task['completed']:
             print(f"\t{task['title']}")
+
 
 if __name__ == "__main__":
     # Check if the correct number of command-line arguments is provided
