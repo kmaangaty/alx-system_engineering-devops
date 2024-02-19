@@ -7,25 +7,23 @@ if __name__ == "__main__":
     import json
     import requests
 
-    FILENAME = 'todo_all_employees.json'
-    URL_FOR_USERS = 'https://jsonplaceholder.typicode.com/users'
-    URL_FOR_TODOS = 'https://jsonplaceholder.typicode.com/todos'
+    fn = 'todo_all_employees.json'
+    us_rls = 'https://jsonplaceholder.typicode.com/users'
+    tds = 'https://jsonplaceholder.typicode.com/todos'
+    rt = requests.get(tds)
+    ro = requests.get(us_rls)
+    tdss = rt.json()
+    uss = ro.json()
+    tae = {}
 
-    r_for_users = requests.get(URL_FOR_USERS)
-    r_for_todos = requests.get(URL_FOR_TODOS)
-
-    users = r_for_users.json()
-    todos = r_for_todos.json()
-    todo_all_employees = {}
-
-    for user in users:
-        todos_list = []
-        for todo in todos:
-            if todo.get("userId") == user.get("id"):
-                my_dict = {"username": user.get("username"),
-                           "task": todo.get("title"),
-                           "completed": todo.get("completed")}
-                todos_list.append(my_dict)
-        todo_all_employees[user.get("id")] = todos_list
-    with open(FILENAME, 'w+') as f:
-        json.dump(todo_all_employees, f)
+    for u in uss:
+        list = []
+        for t in tdss:
+            if t.get("userId") == u.get("id"):
+                obj = {"username": u.get("username"),
+                           "task": t.get("title"),
+                           "completed": t.get("completed")}
+                list.append(obj)
+        tae[u.get("id")] = list
+    with open(fn, 'w+') as file:
+        json.dump(tae, file)
