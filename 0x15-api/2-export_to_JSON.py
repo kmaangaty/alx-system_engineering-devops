@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """
-This script retrieves information about an employee's
- TODO list progress
+This script retrieves information about an employee's TODO list progress
 and exports the data to a JSON file.
 
 Usage:
@@ -10,12 +9,9 @@ Usage:
 Arguments:
     <employee_id>: Integer representing the employee ID.
 
-The script fetches data from the JSONPlaceholder
- API to gather information
-about the specified employee's TODO list progress.
- It counts the completed
-tasks, displays progress information, and exports
- the data to a JSON file.
+The script fetches data from the JSONPlaceholder API to gather information
+about the specified employee's TODO list progress. It counts the completed
+tasks, displays progress information, and exports the data to a JSON file.
 
 Requirements:
 - Uses the requests module.
@@ -26,15 +22,13 @@ if __name__ == "__main__":
     import requests
     import sys
 
-    # Initialize variables for completed tasks (dt),
-    # all tasks (at), and a list to store data for JSON
+    # Initialize variables for completed tasks (dt), all tasks (at), and a list to store data for JSON
     dt = 0
     at = 0
     json_data = {}
 
     # URL to fetch user information based on provided employee ID
-    user_url = (f'https://jsonplaceholder.typicode.com/users/'
-                f'{sys.argv[1]}')
+    user_url = f'https://jsonplaceholder.typicode.com/users/{sys.argv[1]}'
 
     # URL to fetch TODO list data for all users
     todos_url = 'https://jsonplaceholder.typicode.com/todos'
