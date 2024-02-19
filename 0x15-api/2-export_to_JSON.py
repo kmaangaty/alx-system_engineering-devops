@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """
-Return information for a given employee about his/her TODO list progress
+Return information for a given employee
+about TODO list progress
 """
 
 if __name__ == "__main__":

@@ -1,7 +1,9 @@
 #!/usr/bin/python3
 """
-This script retrieves and displays information about an employee's TODO list progress.
-It takes an employee ID as a command-line argument and fetches data from a public REST API.
+This script retrieves and displays information about
+ an employee's TODO list progress.
+It takes an employee ID as a command-line argument
+ and fetches data from a public REST API.
 """
 
 

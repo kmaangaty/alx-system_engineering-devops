@@ -10,7 +10,8 @@ if __name__ == "__main__":
     import requests
     import sys
 
-    # Initialize variables for completed tasks (dt), all tasks (at), and a list to store data for CSV
+    # Initialize variables for completed tasks
+    # (dt), all tasks (at), and a list to store data for CSV
     dt = 0
     at = 0
     csv_data = []
