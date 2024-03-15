@@ -10,17 +10,16 @@ import requests
 
 def number_of_subscribers(subreddit):
     """
-    Queries the Reddit API and returns the number of
-     subscribers for a given subreddit.
+    Queries the Reddit API and returns the number of subscribers for a given subreddit.
 
     Args:
         subreddit (str): The name of the subreddit.
 
     Returns:
         int: The total number of subscribers for the subreddit.
-         Returns 0 if the subreddit is not found or if there is an error.
+        Returns None if the subreddit is not found or if there is an error.
     """
-    url = "https://www.reddit.com/r/{}/about.json".format(subreddit)
+    url = f"https://www.reddit.com/r/{subreddit}/about.json"
     headers = {'User-Agent': 'Custom User Agent'}  # Set a custom User-Agent
     response = requests.get(url, headers=headers, allow_redirects=False)
 
@@ -29,13 +28,17 @@ def number_of_subscribers(subreddit):
         data = response.json()
         return data['data']['subscribers']
     elif response.status_code == 404:  # Subreddit not found
-        return 0
+        return None
     else:
         print(f"Error: {response.status_code}")
-        return 0
+        return None
 
 
 # Test the function
 if __name__ == "__main__":
     subreddit = input("Enter subreddit name: ")
-    print(number_of_subscribers(subreddit))
+    subscribers = number_of_subscribers(subreddit)
+    if subscribers is None:
+        print("Subreddit not found or error occurred.")
+    else:
+        print(subscribers)
