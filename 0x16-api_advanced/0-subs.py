@@ -3,6 +3,16 @@ import requests
 
 
 def number_of_subscribers(subreddit):
+    """
+    Queries the Reddit API and returns the number of subscribers for a given subreddit.
+
+    Args:
+        subreddit (str): The name of the subreddit to query.
+
+    Returns:
+        int: The number of subscribers of the subreddit. Returns 0 if the subreddit is invalid
+        or if there was an error querying the API.
+    """
     url = f"https://www.reddit.com/r/{subreddit}/about.json"
     headers = {'User-Agent': 'Custom User Agent'}  # Set a custom User-Agent
     response = requests.get(url, headers=headers)
