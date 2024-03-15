@@ -30,7 +30,7 @@ def number_of_subscribers(subreddit):
     elif response.status_code == 404:  # Subreddit not found
         return None
     else:
-        print(f"Error: {response.status_code}")
+        print("Error: {}".format(response.status_code))
         return None
 
 
