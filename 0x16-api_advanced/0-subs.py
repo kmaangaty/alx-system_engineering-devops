@@ -1,6 +1,4 @@
 #!/usr/bin/python3
-import requests
-
 """
    Queries the Reddit API and returns the number of subscribers for a given subreddit.
 
@@ -11,6 +9,7 @@ import requests
        int: The number of subscribers of the subreddit. Returns 0 if the subreddit is invalid
        or if there was an error querying the API.
 """
+import requests
 
 
 def number_of_subscribers(subreddit):
