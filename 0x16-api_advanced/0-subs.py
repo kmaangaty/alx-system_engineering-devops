@@ -19,7 +19,7 @@ def number_of_subscribers(subreddit):
         int: The total number of subscribers for the subreddit.
         Returns None if the subreddit is not found or if there is an error.
     """
-    url = f"https://www.reddit.com/r/{subreddit}/about.json"
+    url = "https://www.reddit.com/r/{}/about.json".format(subreddit)
     headers = {'User-Agent': 'Custom User Agent'}  # Set a custom User-Agent
     response = requests.get(url, headers=headers, allow_redirects=False)
 
