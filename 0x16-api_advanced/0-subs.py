@@ -18,7 +18,7 @@ def number_of_subscribers(subreddit):
     Returns:
         int: The total number of subscribers for the subreddit. Returns 0 if the subreddit is invalid.
     """
-    url = "https://www.reddit.com/r/" + subreddit + "/about.json"
+    url = "https://www.reddit.com/r/{}/about.json".format(subreddit)
     headers = {'User-Agent': 'Custom User Agent'}
 
     try:
@@ -28,7 +28,7 @@ def number_of_subscribers(subreddit):
         data = response.json()
         return data['data']['subscribers']
     except requests.exceptions.HTTPError as e:
-        print(f"Error accessing subreddit: {e}")
+        print("Error accessing subreddit: {}".format(e))
         return 0
 
 
