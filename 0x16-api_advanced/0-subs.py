@@ -20,16 +20,14 @@ def number_of_subscribers(subreddit):
         Returns None if the subreddit is not found or if there is an error.
     """
     url = "https://www.reddit.com/r/{}/about.json".format(subreddit)
-    headers = {'User-Agent': 'Custom User Agent'}  # Set a custom User-Agent
+    headers = {'User-Agent': 'Mozilla/10.0/API'}
     response = requests.get(url, headers=headers, allow_redirects=False)
-
-    # Check if the response is successful (status code 200)
     if response.status_code == 200:
         data = response.json()
         return data['data']['subscribers']
-    elif response.status_code == 404:  # Subreddit not found
+    elif response.status_code == 404:
         return None
-    elif response.status_code == 403:  # Forbidden (rate limit exceeded)
+    elif response.status_code == 403:
         print("403 Forbidden: Rate limit exceeded or access denied.")
         return None
     else:
