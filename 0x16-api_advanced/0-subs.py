@@ -18,7 +18,7 @@ def number_of_subscribers(subreddit):
     Returns:
         int: The total number of subscribers for the subreddit. Returns 0 if the subreddit is invalid.
     """
-    url = f"https://www.reddit.com/r/{subreddit}/about.json"
+    url = "https://www.reddit.com/r/" + subreddit + "/about.json"
     headers = {'User-Agent': 'Custom User Agent'}
 
     try:
