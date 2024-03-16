@@ -23,4 +23,4 @@ def number_of_subscribers(subreddit):
         sub_count = data.get("subscribers", 0)
         return sub_count
     else:
-        return 0
+        return response.status_code
