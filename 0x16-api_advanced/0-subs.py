@@ -1,10 +1,3 @@
-#!/usr/bin/python3
-"""
-    recursive function that queries the Reddit API and
-    returns a list containing the titles of all hot articles
-    for a given subreddit. If no results are found
-    for the given subreddit, the function should return None.
-"""
 import requests
 
 
@@ -18,15 +11,18 @@ def number_of_subscribers(subreddit):
     Returns:
         int: The total number of subscribers for the subreddit. Returns 0 if the subreddit is invalid.
     """
-    url = "https://www.reddit.com/r/{}/about.json".format(subreddit)
+    url = f"https://www.reddit.com/r/{subreddit}/about.json"
     headers = {'User-Agent': 'Custom User Agent'}
 
-    response = requests.get(url, headers=headers, allow_redirects=False)
-    if response.status_code == 200:
+    try:
+        response = requests.get(url, headers=headers, allow_redirects=False)
+        response.raise_for_status()  # Raise an error for bad responses (4xx or 5xx)
+
         data = response.json()
         return data['data']['subscribers']
-    else:
-        return response
+    except requests.exceptions.HTTPError as e:
+        print(f"Error accessing subreddit: {e}")
+        return 0
 
 
 # Test the function
@@ -36,5 +32,6 @@ if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("Please pass an argument for the subreddit to search.")
     else:
-        subscribers = number_of_subscribers(sys.argv[1])
+        subreddit = sys.argv[1]
+        subscribers = number_of_subscribers(subreddit)
         print(subscribers)
