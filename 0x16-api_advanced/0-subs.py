@@ -7,6 +7,7 @@
 """
 import requests
 
+
 def number_of_subscribers(subreddit):
     """
     Queries the Reddit API and returns the number
@@ -27,22 +28,11 @@ def number_of_subscribers(subreddit):
     if response.status_code == 200:
         data = response.json().get("data")
         return data.get('subscribers')
-    elif response.status_code == 404:  # Subreddit not found
+    elif response.status_code == 404:
+        print("Error: {}".format(response.status_code))
+    elif response.status_code == 403:
+        print("Error: {}".format(response.status_code))
         return 0
-    elif response.status_code == 403:  # Forbidden (rate limit exceeded)
-        print("Subreddit not found or error occurred.")
-        return None
     else:
         print("Error: {}".format(response.status_code))
-        return None
-
-
-# Test the function
-if __name__ == "__main__":
-    import sys
-    subreddit = sys.argv[1] if len(sys.argv) > 1 else input("Enter subreddit name: ")
-    subscribers = number_of_subscribers(subreddit)
-    if subscribers is None:
-        print("Subreddit not found or error occurred.")
-    else:
-        print(subscribers)
+        return 0
