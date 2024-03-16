@@ -20,7 +20,7 @@ def number_of_subscribers(subreddit):
         int: The total number of subscribers for the subreddit.
         Returns None if the subreddit is not found or if there is an error.
     """
-    url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
+    url = f"https://www.reddit.com/r/{subreddit}/hot.json"
     headers = {'User-Agent': 'Mozilla/10.0/API'}
     response = requests.get(url, headers=headers, allow_redirects=False)
     if response.status_code == 200:
