@@ -30,7 +30,7 @@ def number_of_subscribers(subreddit):
     elif response.status_code == 404:  # Subreddit not found
         return None
     elif response.status_code == 403:  # Forbidden (rate limit exceeded)
-        print(response.json())
+        print(response)
         return None
     else:
         print("Error: {}".format(response.status_code))
