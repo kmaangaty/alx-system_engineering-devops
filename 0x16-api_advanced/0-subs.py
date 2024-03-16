@@ -7,6 +7,7 @@
 """
 import requests
 
+
 def number_of_subscribers(subreddit):
     """
     Queries the Reddit API and returns the number
@@ -19,7 +20,7 @@ def number_of_subscribers(subreddit):
         int: The total number of subscribers for the subreddit.
         Returns None if the subreddit is not found or if there is an error.
     """
-    url = "https://www.reddit.com/r/{}/about.json".format(subreddit)
+    url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
     headers = {'User-Agent': 'Mozilla/10.0/API'}
     response = requests.get(url, headers=headers, allow_redirects=False)
     if response.status_code == 200:
