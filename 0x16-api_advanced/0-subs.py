@@ -25,12 +25,12 @@ def number_of_subscribers(subreddit):
 
     # Check if the response is successful (status code 200)
     if response.status_code == 200:
-        data = response.json()
-        return data['data']['subscribers']
+        data = response.json().get("data")
+        return data.get('subscribers')
     elif response.status_code == 404:  # Subreddit not found
-        return None
+        return 0
     elif response.status_code == 403:  # Forbidden (rate limit exceeded)
-        print(response)
+        print("Subreddit not found or error occurred.")
         return None
     else:
         print("Error: {}".format(response.status_code))
