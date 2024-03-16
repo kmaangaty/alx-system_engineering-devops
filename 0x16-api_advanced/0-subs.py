@@ -10,7 +10,7 @@ import requests
 
 def number_of_subscribers(subreddit):
     """Return the total number of subscribers on a given subreddit."""
-    url = "https://www.reddit.com/r/{}/about.json".format(subreddit)
+    url = "https://www.reddit.com/r/programming/about.json"
     headers = {'User-Agent': 'Mozilla/10.0/API'}
     response = requests.get(url, headers=headers, allow_redirects=False)
     if response.status_code == 404:
